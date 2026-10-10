@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="HERE COMES THE MONEY — demonstração de slots e roleta com moedas fictícias, sem dinheiro real ou prémios.">
+  <title>HERE COMES THE MONEY — Casino Demo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080808;
+      --panel: #121212;
+      --panel-2: #191713;
+      --gold: #e7bd61;
+      --gold-bright: #ffe4a0;
+      --muted: #aaa49a;
+      --line: rgba(231,189,97,.24);
+      --red: #d84444;
+      --green: #23855b;
+      --black-pocket: #202020;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 50% -20%, rgba(177,126,36,.16), transparent 48%),
+        var(--bg);
+      color: #f6f1e6;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+    button { font: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(8,8,8,.88);
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(14px);
+    }
+    .topbar { min-height: 76px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:12px; min-width:0; }
+    .brand-mark {
+      width: 43px; height:43px; flex:0 0 43px; border:1px solid var(--gold);
+      color:var(--gold-bright); display:grid; place-items:center; border-radius:50%;
+      font-family: Georgia, serif; font-weight:800; font-size:22px;
+      box-shadow: inset 0 0 18px rgba(231,189,97,.1), 0 0 18px rgba(231,189,97,.08);
+    }
+    .brand-name { font-family: Georgia, "Times New Roman", serif; font-weight:800; letter-spacing:.09em; line-height:1.1; font-size:clamp(14px,2.3vw,21px); }
+    .brand-sub { color:var(--muted); text-transform:uppercase; letter-spacing:.2em; font-size:9px; margin-top:5px; }
+    .balance {
+      display:flex; align-items:center; gap:10px; border:1px solid var(--line);
+      background:#14120e; border-radius:999px; padding:10px 15px; white-space:nowrap;
+    }
+    .coin { display:inline-grid; place-items:center; border-radius:50%; color:#2b1b00; font-weight:900;
+      background:linear-gradient(135deg,#fff0ad,#d9a53b 60%,#9b6815); width:24px;height:24px;font-size:13px; }
+    .balance small { display:block; color:var(--muted); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+    .balance strong { color:var(--gold-bright); font-size:16px; font-variant-numeric:tabular-nums; }
+    .hero { text-align:center; padding:62px 0 35px; }
+    .eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:.28em; font-size:11px; font-weight:750; }
+    h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(32px,6vw,62px); line-height:1.04; letter-spacing:.025em; margin:15px 0 13px; }
+    h1 span { color:var(--gold); }
+    .hero p { color:var(--muted); max-width:600px; margin:0 auto; line-height:1.7; font-size:15px; }
+    .notice { margin:26px auto 0; width:fit-content; max-width:100%; border:1px solid rgba(231,189,97,.42); border-radius:8px; padding:10px 14px; color:#f6dda0; background:rgba(231,189,97,.07); font-size:12px; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:12px; margin:22px 0 16px; }
+    .section-head h2 { margin:0; font-family:Georgia,serif; font-size:25px; }
+    .section-head p { color:var(--muted); margin:5px 0 0; font-size:13px; }
+    .game-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding-bottom:50px; }
+    .game-card { border:1px solid var(--line); border-radius:18px; overflow:hidden; background:linear-gradient(150deg,rgba(28,25,19,.97),rgba(13,13,13,.98) 60%); box-shadow:0 18px 60px rgba(0,0,0,.2); }
+    .card-head { display:flex; align-items:center; gap:12px; padding:21px 22px 15px; }
+    .game-icon { width:42px;height:42px; display:grid;place-items:center; border-radius:12px; border:1px solid var(--line); background:rgba(231,189,97,.08); font-size:23px; }
+    .card-head h3 { margin:0; font-family:Georgia,serif; font-size:23px; }
+    .card-head p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .game-content { padding:0 22px 22px; }
+    .slot-machine { padding:22px 12px 18px; border:1px solid #5b461d; border-radius:14px; background:radial-gradient(ellipse at center,rgba(168,116,29,.15),transparent 70%),#090909; }
+    .reels { display:flex; justify-content:center; gap:10px; }
+    .reel { width:min(26%,88px); height:84px; display:grid;place-items:center; border:1px solid #715621; border-radius:10px; background:linear-gradient(180deg,#fff5d2,#e7c36f 8%,#f9e9bd 50%,#c99a3d 100%); color:#1b1305; font-size:clamp(34px,5vw,48px); text-shadow:0 2px 0 rgba(255,255,255,.4); box-shadow:inset 0 0 0 4px rgba(75,45,0,.13); }
+    .reel.spinning { animation:reelShake .12s linear infinite; filter:blur(1px); }
+    @keyframes reelShake { 0%{transform:translateY(-2px)}50%{transform:translateY(2px)}100%{transform:translateY(-2px)} }
+    .machine-label { text-align:center; color:var(--gold); letter-spacing:.22em; font-size:10px; margin-top:14px; }
+    .controls { display:flex; align-items:center; gap:10px; margin-top:16px; }
+    .bet-control { display:flex; align-items:center; gap:8px; flex:1; color:var(--muted); font-size:12px; }
+    select { background:#101010; color:#f5e8c5; border:1px solid #51401f; border-radius:8px; padding:10px 8px; min-width:80px; }
+    .btn { border:0; border-radius:9px; padding:12px 18px; cursor:pointer; font-weight:800; transition:transform .15s,filter .15s,opacity .15s; }
+    .btn:hover:not(:disabled) { filter:brightness(1.1); transform:translateY(-1px); }
+    .btn:active:not(:disabled) { transform:translateY(1px); }
+    .btn:disabled { opacity:.48; cursor:not-allowed; }
+    .btn-gold { color:#201503; background:linear-gradient(135deg,#ffe7a1,#d6a33d); box-shadow:0 5px 18px rgba(214,163,61,.12); }
+    .btn-quiet { color:var(--gold-bright); border:1px solid var(--line); background:#17140f; }
+    .result { min-height:42px; margin-top:13px; border-radius:8px; padding:11px 12px; background:rgba(255,255,255,.025); color:#c5beb1; font-size:13px; line-height:1.45; }
+    .result strong { color:var(--gold-bright); }
+    .wheel-wrap { display:grid; place-items:center; padding:8px 0 13px; }
+    .wheel-shell { width:min(230px,65vw); aspect-ratio:1; position:relative; display:grid;place-items:center; border-radius:50%; border:7px solid #a77c2b; background:#0a0a0a; box-shadow:0 0 0 3px #39290d,0 0 30px rgba(231,189,97,.12); }
+    .wheel { width:100%; height:100%; border-radius:50%; position:relative; background:conic-gradient(from -4.86deg, #23855b 0deg 9.73deg, #d84444 9.73deg 19.46deg, #202020 19.46deg 29.19deg, #d84444 29.19deg 38.92deg, #202020 38.92deg 48.65deg, #d84444 48.65deg 58.38deg, #202020 58.38deg 68.11deg, #d84444 68.11deg 77.84deg, #202020 77.84deg 87.57deg, #d84444 87.57deg 97.3deg, #202020 97.3deg 107.03deg, #d84444 107.03deg 116.76deg, #202020 116.76deg 126.49deg, #d84444 126.49deg 136.22deg, #202020 136.22deg 145.95deg, #d84444 145.95deg 155.68deg, #202020 155.68deg 165.41deg, #d84444 165.41deg 175.14deg, #202020 175.14deg 184.87deg, #d84444 184.87deg 194.6deg, #202020 194.6deg 204.33deg, #d84444 204.33deg 214.06deg, #202020 214.06deg 223.79deg, #d84444 223.79deg 233.52deg, #202020 233.52deg 243.25deg, #d84444 243.25deg 252.98deg, #202020 252.98deg 262.71deg, #d84444 262.71deg 272.44deg, #202020 272.44deg 282.17deg, #d84444 282.17deg 291.9deg, #202020 291.9deg 301.63deg, #d84444 301.63deg 311.36deg, #202020 311.36deg 321.09deg, #d84444 321.09deg 330.82deg, #202020 330.82deg 340.55deg, #d84444 340.55deg 350.28deg, #202020 350.28deg 360deg); transition:transform 3.2s cubic-bezier(.12,.72,.12,1); }
+    .wheel::after { content:""; position:absolute; inset:35%; border:4px solid #e6bd61; border-radius:50%; background:radial-gradient(circle,#3b2a0d,#0b0b0b 70%); box-shadow:0 0 0 3px #16110a; }
+    .wheel-pointer { position:absolute; z-index:2; top:-12px; left:50%; transform:translateX(-50%); width:0;height:0; border-left:11px solid transparent;border-right:11px solid transparent;border-top:25px solid #ffe7a1; filter:drop-shadow(0 2px 2px #000); }
+    .wheel-center-label { position:absolute; z-index:3; font-size:14px; color:#ffe7a1; font-weight:900; text-shadow:0 1px 4px #000; pointer-events:none; }
+    .bet-options { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:3px; }
+    .bet-option { background:#141414; color:#ddd3bf; border:1px solid #39332a; padding:10px 4px; border-radius:8px; cursor:pointer; font-size:12px; }
+    .bet-option[aria-pressed="true"] { border-color:var(--gold); background:rgba(231,189,97,.12); color:var(--gold-bright); box-shadow:inset 0 0 0 1px rgba(231,189,97,.15); }
+    .roulette-actions { display:flex; gap:10px; margin-top:12px; }
+    .roulette-actions .btn { flex:1; }
+    .number-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-top:12px; }
+    .num-btn { padding:7px 0; border:1px solid #38342d; border-radius:5px; cursor:pointer; color:white; background:#202020; font-size:11px; }
+    .num-btn.red { background:#8e2929; } .num-btn.green { background:#176744; }
+    .num-btn[aria-pressed="true"] { outline:2px solid var(--gold); outline-offset:1px; }
+    .history { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; align-items:center; }
+    .history-label { color:var(--muted); font-size:11px; margin-right:2px; }
+    .history-ball { display:grid; place-items:center; width:25px;height:25px; border-radius:50%; font-size:11px; font-weight:800; background:#222; }
+    .history-ball.red { background:#a12f2f; } .history-ball.green { background:#176744; }
+    .footer { border-top:1px solid var(--line); padding:24px 0 34px; color:var(--muted); font-size:12px; line-height:1.7; text-align:center; }
+    .footer strong { color:#e5c779; }
+    .toast { position:fixed; left:50%; bottom:20px; transform:translate(-50%,20px); background:#211b0e; border:1px solid var(--gold); color:#ffe8ae; border-radius:9px; padding:12px 16px; z-index:20; opacity:0; pointer-events:none; transition:.2s; max-width:calc(100% - 28px); text-align:center; font-size:13px; }
+    .toast.show { opacity:1; transform:translate(-50%,0); }
+    .reset-row { display:flex; justify-content:center; padding:0 0 30px; }
+    @media (max-width:760px) {
+      .game-grid { grid-template-columns:1fr; }
+      .hero { padding:43px 0 26px; }
+      .topbar { min-height:68px; }
+      .brand-sub { letter-spacing:.12em; }
+      .balance { padding:8px 10px; gap:7px; }
+      .balance strong { font-size:14px; }
+      .balance small { font-size:9px; }
+      .card-head { padding:18px 17px 13px; }
+      .game-content { padding:0 17px 18px; }
+    }
+    @media (max-width:380px) {
+      .brand-mark { width:35px;height:35px;flex-basis:35px; }
+      .brand-name { letter-spacing:.035em; font-size:13px; }
+      .balance { padding:7px 8px; }
+      .coin { width:20px;height:20px; }
+      .controls { flex-wrap:wrap; }
+      .bet-control { min-width:100%; }
+      .number-grid { grid-template-columns:repeat(6,1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div class="brand" aria-label="HERE COMES THE MONEY">
+        <div class="brand-mark" aria-hidden="true">H</div>
+        <div>
+          <div class="brand-name">HERE COMES THE MONEY</div>
+          <div class="brand-sub">Experiência demonstrativa</div>
+        </div>
+      </div>
+      <div class="balance" aria-live="polite" aria-label="Saldo de moedas fictícias">
+        <span class="coin" aria-hidden="true">H</span>
+        <div><small>Saldo virtual</small><strong id="balance">1.000</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">◆ A tua sala de jogos virtual ◆</div>
+      <h1>HERE COMES<br><span>THE MONEY</span></h1>
+      <p>Entra, experimenta os jogos e diverte-te com moedas fictícias. Uma demonstração visual criada para explorar uma experiência de casino — sem dinheiro real.</p>
+      <div class="notice">ⓘ Jogo demonstrativo. Sem dinheiro real ou prémios.</div>
+    </section>
+
+    <div class="section-head">
+      <div><h2>Escolhe o teu jogo</h2><p>Moedas virtuais apenas para esta demonstração.</p></div>
+    </div>
+
+    <section class="game-grid" aria-label="Jogos demonstrativos">
+      <article class="game-card">
+        <div class="card-head">
+          <div class="game-icon" aria-hidden="true">🎰</div>
+          <div><h3>Slots Douradas</h3><p>Três rolos. Uma combinação aleatória.</p></div>
+        </div>
+        <div class="game-content">
+          <div class="slot-machine">
+            <div class="reels" aria-label="Rolos das slots">
+              <div class="reel" id="reel1">🍒</div>
+              <div class="reel" id="reel2">🍋</div>
+              <div class="reel" id="reel3">💎</div>
+            </div>
+            <div class="machine-label">★ LUCKY GOLD ★</div>
+          </div>
+          <div class="controls">
+            <label class="bet-control" for="slotBet">Aposta virtual
+              <select id="slotBet">
+                <option value="10">10 moedas</option>
+                <option value="25" selected>25 moedas</option>
+                <option value="50">50 moedas</option>
+                <option value="100">100 moedas</option>
+              </select>
+            </label>
+            <button class="btn btn-gold" id="spinSlots">Girar</button>
+          </div>
+          <div class="result" id="slotResult" aria-live="polite">Prepara-te para girar. Boa sorte!</div>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <div class="card-head">
+          <div class="game-icon" aria-hidden="true">🎡</div>
+          <div><h3>Roleta</h3><p>Escolhe uma aposta e vê onde para a roda.</p></div>
+        </div>
+        <div class="game-content">
+          <div class="wheel-wrap">
+            <div class="wheel-shell" aria-label="Roda da roleta">
+              <div class="wheel-pointer"></div>
+              <div class="wheel" id="wheel"></div>
+              <div class="wheel-center-label">HCM</div>
+            </div>
+          </div>
+          <div class="bet-options" role="group" aria-label="Tipo de aposta">
+            <button class="bet-option" data-bet="red" aria-pressed="true">Vermelho · 1:1</button>
+            <button class="bet-option" data-bet="black" aria-pressed="false">Preto · 1:1</button>
+            <button class="bet-option" data-bet="number" aria-pressed="false">Número · 35:1</button>
+          </div>
+          <div id="numberPicker" hidden>
+            <div class="number-grid" id="numberGrid" aria-label="Escolher número"></div>
+          </div>
+          <div class="controls">
+            <label class="bet-control" for="rouletteBet">Aposta virtual
+              <select id="rouletteBet">
+                <option value="10">10 moedas</option>
+                <option value="25" selected>25 moedas</option>
+                <option value="50">50 moedas</option>
+                <option value="100">100 moedas</option>
+              </select>
+            </label>
+          </div>
+          <div class="roulette-actions">
+            <button class="btn btn-gold" id="spinWheel">Girar roleta</button>
+            <button class="btn btn-quiet" id="clearBet">Limpar</button>
+          </div>
+          <div class="result" id="rouletteResult" aria-live="polite">Escolhe vermelho, preto ou um número de 0 a 36.</div>
+          <div class="history" id="history" aria-label="Últimos resultados"><span class="history-label">Últimos resultados:</span><span style="color:#827b6d;font-size:11px">ainda sem jogadas</span></div>
+        </div>
+      </article>
+    </section>
+
+    <div class="reset-row">
+      <button class="btn btn-quiet" id="resetBalance">↻ Repor saldo inicial</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>HERE COMES THE MONEY</strong><br>
+      Demonstração para entretenimento e aprendizagem. As moedas não têm valor monetário, não podem ser compradas nem trocadas por dinheiro ou prémios.<br>
+      Os resultados são simulados localmente no teu navegador. Não são aceites depósitos ou levantamentos.
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      "use strict";
+      const START_BALANCE = 1000;
+      let balance = START_BALANCE;
+      let busySlots = false;
+      let busyWheel = false;
+      let selectedBet = "red";
+      let selectedNumber = 7;
+      let history = [];
+      let wheelRotation = 0;
+
+      const $ = (id) => document.getElementById(id);
+      const formatCoins = (n) => Math.floor(n).toLocaleString("pt-PT");
+      const updateBalance = () => { $("balance").textContent = formatCoins(balance); };
+      const toast = (message) => {
+        const el = $("toast");
+        el.textContent = message;
+        el.classList.add("show");
+        window.clearTimeout(toast.timer);
+        toast.timer = window.setTimeout(() => el.classList.remove("show"), 2300);
+      };
+      const spend = (amount) => {
+        if (balance < amount) {
+          toast("Saldo insuficiente. Repõe o saldo para continuar.");
+          return false;
+        }
+        balance -= amount;
+        updateBalance();
+        return true;
+      };
+      const add = (amount) => { balance += amount; updateBalance(); };
+      const wait = (ms) => new Promise(resolve => window.setTimeout(resolve, ms));
+
+      // Slots: prémios demonstrativos definidos apenas por esta simulação.
+      const symbols = ["🍒", "🍋", "🍇", "🔔", "⭐", "💎", "7️⃣"];
+      const slotMultipliers = { "🍒": 2, "🍋": 2, "🍇": 3, "🔔": 4, "⭐": 5, "💎": 8, "7️⃣": 10 };
+      $("spinSlots").addEventListener("click", async () => {
+        if (busySlots) return;
+        const bet = Number($("slotBet").value);
+        if (!spend(bet)) return;
+        busySlots = true;
+        $("spinSlots").disabled = true;
+        $("slotResult").textContent = "Os rolos estão a girar…";
+        const reels = [$("reel1"), $("reel2"), $("reel3")];
+        reels.forEach(r => r.classList.add("spinning"));
+        for (let i = 0; i < 12; i++) {
+          reels.forEach(r => r.textContent = symbols[Math.floor(Math.random() * symbols.length)]);
+          await wait(90);
+        }
+        const result = reels.map(r => symbols[Math.floor(Math.random() * symbols.length)]);
+        reels.forEach((r, i) => { r.textContent = result[i]; r.classList.remove("spinning"); });
+        let payout = 0;
+        let message = "Não houve combinação desta vez. Experimenta novamente.";
+        if (result.every(s => s === result[0])) {
+          payout = bet * slotMultipliers[result[0]];
+          message = `Três ${result[0]}! Prémio demonstrativo: <strong>+${formatCoins(payout)} moedas</strong>.`;
+        } else if (result[0] === result[1] || result[1] === result[2] || result[0] === result[2]) {
+          payout = bet;
+          message = `Dois símbolos iguais! Recuperaste a aposta: <strong>+${formatCoins(payout)} moedas</strong>.`;
+        }
+        if (payout) add(payout);
+        $("slotResult").innerHTML = message;
+        busySlots = false;
+        $("spinSlots").disabled = false;
+      });
+
+      const redNumbers = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+      const colorOf = (n) => n === 0 ? "green" : redNumbers.has(n) ? "red" : "black";
+      const numberGrid = $("numberGrid");
+      for (let n = 0; n <= 36; n++) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "num-btn " + colorOf(n);
+        b.textContent = n;
+        b.dataset.number = n;
+        b.setAttribute("aria-pressed", String(n === selectedNumber));
+        b.setAttribute("aria-label", `Apostar no número ${n}`);
+        b.addEventListener("click", () => {
+          selectedNumber = n;
+          numberGrid.querySelectorAll("button").forEach(btn => btn.setAttribute("aria-pressed", String(Number(btn.dataset.number) === n)));
+        });
+        numberGrid.appendChild(b);
+      }
+
+      document.querySelectorAll(".bet-option").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectedBet = btn.dataset.bet;
+          document.querySelectorAll(".bet-option").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+          $("numberPicker").hidden = selectedBet !== "number";
+        });
+      });
+
+      $("spinWheel").addEventListener("click", async () => {
+        if (busyWheel) return;
+        const bet = Number($("rouletteBet").value);
+        if (!spend(bet)) return;
+        busyWheel = true;
+        $("spinWheel").disabled = true;
+        $("clearBet").disabled = true;
+        $("rouletteResult").textContent = "A roleta está a girar…";
+        const number = Math.floor(Math.random() * 37);
+        // A roda é ilustrativa; o número é o resultado da simulação local.
+        const slice = 360 / 37;
+        wheelRotation += 360 * 5 + (360 - (number * slice + slice / 2)) - (wheelRotation % 360);
+        $("wheel").style.transform = `rotate(${wheelRotation}deg)`;
+        await wait(3250);
+        const color = colorOf(number);
+        const wins = selectedBet === "red" ? color === "red" :
+                     selectedBet === "black" ? color === "black" :
+                     number === selectedNumber;
+        let payout = 0;
+        if (wins) payout = selectedBet === "number" ? bet * 36 : bet * 2;
+        if (payout) add(payout);
+        const colorLabel = color === "red" ? "vermelho" : color === "black" ? "preto" : "verde";
+        $("rouletteResult").innerHTML = wins
+          ? `Saiu <strong>${number} (${colorLabel})</strong>. Ganhaste <strong>+${formatCoins(payout)} moedas</strong> nesta simulação.`
+          : `Saiu <strong>${number} (${colorLabel})</strong>. A aposta não acertou.`;
+        history.unshift({ number, color });
+        history = history.slice(0, 8);
+        renderHistory();
+        busyWheel = false;
+        $("spinWheel").disabled = false;
+        $("clearBet").disabled = false;
+      });
+
+      function renderHistory() {
+        const el = $("history");
+        el.replaceChildren();
+        const label = document.createElement("span");
+        label.className = "history-label";
+        label.textContent = "Últimos resultados:";
+        el.appendChild(label);
+        if (!history.length) {
+          const empty = document.createElement("span");
+          empty.style.cssText = "color:#827b6d;font-size:11px";
+          empty.textContent = "ainda sem jogadas";
+          el.appendChild(empty);
+          return;
+        }
+        history.forEach(item => {
+          const ball = document.createElement("span");
+          ball.className = `history-ball ${item.color}`;
+          ball.textContent = item.number;
+          ball.title = `${item.number} — ${item.color === "red" ? "vermelho" : item.color === "black" ? "preto" : "verde"}`;
+          el.appendChild(ball);
+        });
+      }
+
+      $("clearBet").addEventListener("click", () => {
+        selectedBet = "red";
+        document.querySelectorAll(".bet-option").forEach(btn => btn.setAttribute("aria-pressed", String(btn.dataset.bet === "red")));
+        $("numberPicker").hidden = true;
+        toast("Aposta selecionada: vermelho.");
+      });
+
+      $("resetBalance").addEventListener("click", () => {
+        if (busySlots || busyWheel) {
+          toast("Espera que a jogada atual termine.");
+          return;
+        }
+        balance = START_BALANCE;
+        updateBalance();
+        $("slotResult").textContent = "Saldo reposto. Podes voltar a jogar.";
+        $("rouletteResult").textContent = "Saldo reposto. Escolhe a tua aposta virtual.";
+        toast("Saldo reposto para 1.000 moedas fictícias.");
+      });
+
+      updateBalance();
+    })();
+  </script>
+</body>
+</html>
